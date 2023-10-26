@@ -7,6 +7,7 @@ use App\Models\Doctor;
 use App\Models\Medicine;
 use App\Models\PaymentType;
 use App\Models\Specialization;
+use App\Models\Contact;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $medicine=Medicine::factory(10)->create();
         $paymentType=PaymentType::factory(1)->create();
         $specialization=Specialization::factory(5)->create();
+        $contact=Contact::factory(10)->create();
     }
 }

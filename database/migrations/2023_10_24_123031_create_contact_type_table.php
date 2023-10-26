@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('contact_type', function (Blueprint $table) {
+        Schema::create('contact_types', function (Blueprint $table) {
             $table->id();
             $table->string('type');
             $table->timestamps();

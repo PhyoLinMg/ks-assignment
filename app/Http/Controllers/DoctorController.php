@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Doctor;
 
 class DoctorController extends Controller
 {
@@ -14,6 +15,17 @@ class DoctorController extends Controller
     public function index()
     {
         //
+        $data=[];
+        $doctors=Doctor::all();
+        foreach($doctors as $key=>$doctor){
+            $data["data"][$key]=[
+                'name'=>$doctor->name,
+                'biography'=>$doctor->biography,
+                'degree'=> $doctor->degree,
+            ];
+        }
+
+        return response()->json($data);
     }
 
     /**
@@ -36,6 +48,8 @@ class DoctorController extends Controller
     public function show($id)
     {
         //
+        $doctor= Doctor::find($id);
+        return $doctor;
     }
 
     /**
