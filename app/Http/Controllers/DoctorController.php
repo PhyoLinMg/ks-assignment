@@ -15,6 +15,7 @@ class DoctorController extends Controller
     public function index()
     {
         //
+        
         $data=[];
         $doctors=Doctor::all();
         foreach($doctors as $key=>$doctor){
@@ -22,6 +23,7 @@ class DoctorController extends Controller
                 'name'=>$doctor->name,
                 'biography'=>$doctor->biography,
                 'degree'=> $doctor->degree,
+                'specializations'=>$doctor->specializations
             ];
         }
 
@@ -73,5 +75,7 @@ class DoctorController extends Controller
     public function destroy($id)
     {
         //
+        
+
     }
 }

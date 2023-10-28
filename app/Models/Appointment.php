@@ -14,4 +14,20 @@ class Appointment extends Model
         'user_id',
         'payment_type_id'
     ];
+
+
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class,'id','doctor_id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'id','user_id');
+    }
+    public function paymentType()
+    {
+        return $this->hasOne(PaymentType::class,'id','payment_type_id');
+    }
+
 }
