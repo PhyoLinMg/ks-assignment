@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Appointment;
+use App\Http\Resources\AppointmentCollection;
+use App\Http\Resources\AppointmentResource;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class AppointmentController extends Controller
 {
@@ -11,42 +15,36 @@ class AppointmentController extends Controller
     public function getAppointments(){
         //Now not using pagination...
         // u can enhance it as v2
-        $data=[];
-        $appointments=Appointment::all();
-        foreach($appointments as $key=>$appointment){
-            $data["data"][$key]=[
-                'username'=>$appointment->user->name,
-                'doctorname'=>$appointment->doctor->name,
-                'payment'=> $appointment->paymentType->name,
-            ];
+        $appointment;
+        $user=Auth::user();
+        if($user->role==1){
+            $appointment=Appointment::whereDate('created_at', Carbon::today())->paginate(5);
+        } else {
+            $appointment=Appointment::where('user_id',$user->id)->paginate(5);
         }
-
-        return response()->json($data);
+        return new AppointmentCollection($appointment);
     }
-
+    
     public function getSpecificAppointment($id){
-        $appointment=Appointment::find($id);
-        $data=[
-            'username'=>$appointment->user->name,
-            'doctorname'=>$appointment->doctor->email,
-            'payment'=>$appointment->paymentType->name
-        ];
-        return response()->json($data);
+        $appointment=Appointment::findOrFail($id);
+        
+        return new AppointmentResource($appointment);
     }
-
+    
     public function createAppointment(Request $request){
-
+        $user=Auth::user();
+        
         //request will be needed user_id, doctor_id, and payment_type_id
-
+        
         return Appointment::firstOrCreate([
             'doctor_id'=> $request->doctorId,
-            'user_id'=> $request->userId,
+            'user_id'=> $user->id,
             'payment_type_id'=> $request-> paymentTypeId
         ]);
     }
-
+    
     public function cancelAppointment(Request $request){
         $data= Appointment::destroy($request->id); 
-        return response->json(["code"=>$data, "status"=>""]);
+        return response()->json(["code"=>$data, "status"=>"Success"]);
     }
 }

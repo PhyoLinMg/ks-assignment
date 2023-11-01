@@ -15,24 +15,26 @@ Route::post('v1/register',[UserController::class,'register']);
 Route::group([
 	'middleware' => 'auth:sanctum'
 ], function() {
-    Route::put('v1/user',[UserController::class,'updateUserInfo']);
+	Route::put('v1/user',[UserController::class,'updateUserInfo']);
+	
+	Route::get('v1/appointments',[AppointmentController::class, 'getAppointments']); // if role is admin, return all today appointments otherwise return user appointment
+	Route::get('v1/appointments/{id}',[AppointmentController::class, 'getSpecificAppointment']);
+	Route::post('v1/appointment',[AppointmentController::class,'createAppointment']);
+	Route::post('v1/appointments/cancel',[AppointmentController::class,'cancelAppointment']);
 });
 
 // Doctor
 Route::get('v1/doctors',[DoctorController::class, 'index']);
 Route::get('v1/doctors/{id}',[DoctorController::class,'show']);
-//Route::delete('v1/doctors/{id}',[DoctorController::class,'delete']); missing
-//Route::post('v1/doctors/',[DoctorController::class,'add']); missing
-//Route::put('v1/doctors/{id}',[DoctorController::class,'update']); missing
+Route::delete('v1/doctors/{id}',[DoctorController::class,'destroy']);
+Route::post('v1/doctors/',[DoctorController::class,'store']);
+Route::put('v1/doctors/{id}',[DoctorController::class,'update']);
 
 // Appointment
 /**
- * put below routes under auth group 
- */
-Route::get('v1/appointments',[AppointmentController::class, 'getAppointments']); // if role is admin, return all today appointments otherwise return user appointment
-Route::get('v1/appointments/{id}',[AppointmentController::class, 'getSpecificAppointment']);
-Route::post('v1/appointment',[AppointmentController::class,'createAppointment']);
-Route::post('v1/appointments/cancel',[AppointmentController::class,'cancelAppointment']);
+* put below routes under auth group 
+*/
+
 
 // Prescription 
 
