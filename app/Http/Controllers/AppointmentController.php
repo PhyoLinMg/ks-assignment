@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Appointment;
+use App\Models\Prescription;
 use App\Http\Resources\AppointmentCollection;
 use App\Http\Resources\AppointmentResource;
 use Illuminate\Support\Facades\Auth;
@@ -46,5 +47,21 @@ class AppointmentController extends Controller
     public function cancelAppointment(Request $request){
         $data= Appointment::destroy($request->id); 
         return response()->json(["code"=>$data, "status"=>"Success"]);
+    }
+
+    public function addPrescription(Request $request){
+        $user= Auth::user();
+        
+        if($user->role!=1) return response()->json([
+            "message"=>"You don't have permission to "
+        ],403);
+        else {
+            return Prescription::firstOrCreate([
+                'medicine_id'=>$request->medicineId,
+                'name'=> $request->name,
+                'quantity'=> $request->quantity,
+                'note'=>$request->note,
+            ]);
+        }
     }
 }

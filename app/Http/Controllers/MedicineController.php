@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Medicine;
+use App\Http\Resources\MedicineResource;
 use Illuminate\Http\Request;
 
 class MedicineController extends Controller
@@ -14,6 +16,8 @@ class MedicineController extends Controller
     public function index()
     {
         //
+        $medicines=Medicine::paginate(5);
+        return new MedicineResource($medicines);
     }
 
     /**

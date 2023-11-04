@@ -9,12 +9,12 @@ class OrderController extends Controller
     //
     public function order(Request $request){
         return Order::firstOrCreate([
-            'order_id'=>$request->orderId,
+            'appointment_id'=>$request->appointmentId,
             'prescription_id'=> $request->prescriptionId,
         ]);
     }
 
     public function completeOrder(Request $request){
-            
+        //TODO: to complete the order, change the status to complete.
     }
 }

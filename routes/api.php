@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\MedicineControllers;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FeedbackController;
 
@@ -21,6 +22,7 @@ Route::group([
 	Route::get('v1/appointments/{id}',[AppointmentController::class, 'getSpecificAppointment']);
 	Route::post('v1/appointment',[AppointmentController::class,'createAppointment']);
 	Route::post('v1/appointments/cancel',[AppointmentController::class,'cancelAppointment']);
+	Route::post('v1/addPrescription',[AppointmentController::class,'addPrescription']);
 });
 
 // Doctor
@@ -39,19 +41,19 @@ Route::put('v1/doctors/{id}',[DoctorController::class,'update']);
 // Prescription 
 
 // Admin give Prescription for Appointment 
-// Route::post('v1/addPrescription',[AppointmentController::class,'addPrescription']); 
+
 
 // User Order [missing]
-// Route::post('v1/order/',[AppointmentController::class,'order']); 
-// Route::post('v1/order/{id}/complete',[AppointmentController::class,'order_complete']);
+Route::post('v1/order/',[OrderController::class,'order']); 
+Route::post('v1/order/{id}/complete',[OrderController::class,'completeOrder']);
 //
 // Medicine missing  
-// 
+Route::get('v1/medicines',[MedicineController::class,'index']);
 
 // Payment
 Route::get('v1/payments',[PaymentController::class, 'getPaymentList']);
 
 // Others
 Route::get('v1/contacts',[ContactController::class, 'getContacts']);
-Route::post('v1/feedback', [FeedbackController::class, 'store']);
-Route::post('v1/getfeedback', [FeedbackController::class, 'feedback']);
+Route::post('v1/feedback/save', [FeedbackController::class, 'store']);
+Route::post('v1/feedbacks', [FeedbackController::class, 'feedback']);
