@@ -9,15 +9,16 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function login(Request $request){
+
+
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
             $user = Auth::user(); 
             $success['token'] =  $user->createToken('KS')->plainTextToken; 
             $success['name'] =  $user->name;
-   
             return response()->json($success);
         } 
         else {
-            return response()->json(["status"=>"Failed Successfully"]);
+            return response()->json(["status"=>"Failed Successfully"],401);
         }
         
     }
